@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Furkan</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: #0e0e0e;
+      color: #00ffe7;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Digital clock */
+    #digital-clock {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #0a0a0a;
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #00ffe7;
+      color: #00ffe7;
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-align: center;
+      user-select: none;
+      width: 220px;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum";
+      z-index: 9999;
+    }
+
+    #digital-date {
+      font-size: 1.1rem;
+      margin-top: 6px;
+      color: #00ffe7;
+    }
+
+    /* Header */
+    header {
+      background: #1c1c1c;
+      color: inherit;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px #00ffe7;
+    }
+
+    /* Main content */
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    section {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(0, 255, 231, 0.2);
+    }
+
+    h2 {
+      color: #ffde00;
+      margin-top: 0;
+    }
+
+    /* Projects */
+    .projects-section {
+      margin-top: 40px;
+    }
+
+    .project-title {
+      color: #00ffe7;
+      cursor: pointer;
+      text-decoration: underline;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    /* Removed display:none; from here */
+    .project-description {
+      /* display: none; */
+      margin-top: 10px;
+      padding: 10px;
+      background: #2a2a2a;
+      border-left: 4px solid #00ffe7;
+      border-radius: 4px;
+      color: #fff;
+      line-height: 1.4;
+      display: none; /* Initially hidden by default */
+    }
+
+    /* Show project description when visible class added */
+    .project-description.visible {
+      display: block;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    /* Music player */
+    #music-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 15px 20px;
+      box-shadow: 0 0 15px #00ffe7;
+      color: #d4d7dc;
+      font-family: inherit;
+      user-select: none;
+      z-index: 9999;
+    }
+
+    #track-title {
+      font-size: 1.1rem;
+      color: #c0c3c9;
+      filter: blur(0.3px);
+      margin-bottom: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #progress-container {
+      margin-bottom: 12px;
+    }
+
+    #progress-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 4px;
+      background: #2c2f38;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Slider thumb simplified: combined both webkit and moz */
+    #progress-bar::-webkit-slider-thumb,
+    #progress-bar::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #00aaff;
+      cursor: pointer;
+      box-shadow: 0 0 8px #00aaff;
+      transition: background 0.3s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    #controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #aab0bb;
+    }
+
+    #start-time,
+    #end-time {
+      width: 35px;
+      text-align: center;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 5px 8px;
+      transition: color 0.2s ease;
+      user-select: none;
+    }
+
+    button:hover {
+      color: #00aaff;
+    }
+
+    button:focus {
+      outline: none;
+      color: #00ccff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Furkan</h1>
+    <p>Welcome to my personal page!</p>
+  </header>
+
+  <div id="digital-clock" aria-live="polite" aria-atomic="true" role="timer">
+    <div id="time">--:--:-- --</div>
+    <div id="digital-date">---</div>
+  </div>
+
+  <main>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Hi! I'm Furkan, a passionate and curious individual from Belgium who enjoys learning, creating, and connecting with people.
+        I'm fluent in four languages: Turkish, English, French, and Dutch.
+      </p>
+      <p>
+        I have experience with HTML, CSS, and JavaScript, and I'm currently learning C to expand my programming knowledge.
+        I’m deeply passionate about Linux, I first started with Arch, and later switched to Gentoo for it's customizability and control. My final goal is to create my own OS with C, I also use Emacs. I already have some C projects but they are too minor to be mentioned.
+      </p>
+      <p>
+        As you guessed, I support the <a href="https://www.gnu.org/" target="_blank" rel="noopener noreferrer">GNU project</a> and the <a href="https://www.fsf.org/" target="_blank" rel="noopener noreferrer">FOSS</a> movement. I believe that free software is the future.
+      </p>
+    </section>
+
+    <section class="projects-section" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Current Finished Projects</h2>
+      <p>
+        <a href="#" class="project-title" role="button" aria-expanded="false" aria-controls="myterm-description" id="myterm-toggle">MyTerm</a>
+      </p>
+      <div class="project-description" id="myterm-description">
+        myterm is a lightweight command-line interface project that I finished. The password is <strong>awesome</strong>.
+        <br />
+        <a href="password.html" target="_blank" rel="noopener noreferrer">Go to MyTerm page</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Furkan. Not a corporation. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Clock logic
+    const timeEl = document.getElementById('time');
+    const dateEl = document.getElementById('digital-date');
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      const pad = n => n.toString().padStart(2, '0');
+      timeEl.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)} ${ampm}`;
+
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                      'July', 'August', 'September', 'October', 'November', 'December'];
+      dateEl.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Project toggle
+    const projectToggle = document.getElementById('myterm-toggle');
+    const projectDesc = document.getElementById('myterm-description');
+
+    projectToggle.addEventListener('click', e => {
+      e.preventDefault();
+      const expanded = projectToggle.getAttribute('aria-expanded') === 'true';
+      projectToggle.setAttribute('aria-expanded', String(!expanded));
+      projectDesc.classList.toggle('visible', !expanded);
+    });
+  </script>
+
+  <div id="music-player" aria-label="Music Player" role="region">
+    <div id="track-title" aria-live="polite" aria-atomic="true">Loading...</div>
+
+    <div id="progress-container">
+      <input type="range" id="progress-bar" min="0" max="0" value="0" step="1" aria-label="Track progress" />
+    </div>
+
+    <div id="controls">
+      <span id="start-time">0:00</span>
+      <button id="prev-btn" aria-label="Previous track">&#9664;</button>
+      <button id="play-pause-btn" aria-label="Play or pause">&#9658;</button>
+      <button id="next-btn" aria-label="Next track">&#9654;</button>
+      <span id="end-time">0:00</span>
+    </div>
+
+    <audio id="audio-player" preload="metadata"></audio>
+  </div>
+
+  <script>
+    const playlist = [
+      'music/playlist_of_songs/A-D_converted_thoughts.mp3',
+      'music/playlist_of_songs/cloud_music.mp3',
+      'music/playlist_of_songs/I_never_left.mp3',
+      'music/playlist_of_songs/plug_me_in_reconnect.mp3',
+      'music/playlist_of_songs/recycle_bin_music.mp3',
+      'music/playlist_of_songs/decrypted_decepted.mp3',
+      'music/playlist_of_songs/petrol_stain_patterns.mp3',
+      'music/playlist_of_songs/stopmotion_music.mp3',
+      'music/playlist_of_songs/multilevel_parking_level.mp3',
+      'music/playlist_of_songs/I_am_okay.mp3',
+      'music/playlist_of_songs/stuck_in_the.mp3',
+      'music/playlist_of_songs/fumei.mp3',
+      'music/playlist_of_songs/scatter_me_rearrange.mp3',
+      'music/playlist_of_songs/14.mp3',
+      'music/playlist_of_songs/update_music.mp3',
+      'music/playlist_of_songs/silent_mode.mp3',
+      'music/playlist_of_songs/tetsudou_no_uta.mp3',
+      'music/playlist_of_songs/thank_you_for_always_being_with_me.mp3',
+      'music/playlist_of_songs/shutdown_music.mp3',
+      'music/playlist_of_songs/non_static.mp3',
+      'music/playlist_of_songs/waterfall_music.mp3',
+      'music/playlist_of_songs/command line.mp3',
+      'music/playlist_of_songs/third death.mp3',
+      'music/playlist_of_songs/access_denied.mp3',
+      'music/playlist_of_songs/taking_my_body_elsewhere.mp3'
+    ];
+
+    const audio = document.getElementById('audio-player');
+    const trackTitle = document.getElementById('track-title');
+    const progressBar = document.getElementById('progress-bar');
+    const startTime = document.getElementById('start-time');
+    const endTime = document.getElementById('end-time');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function loadTrack(index) {
+      if (index < 0 || index >= playlist.length) return;
+      currentTrackIndex = index;
+      audio.src = playlist[index];
+      trackTitle.textContent = playlist[index].split('/').pop();
+      audio.load();
+      progressBar.value = 0;
+      startTime.textContent = '0:00';
+      endTime.textContent = '0:00';
+      if (isPlaying) audio.play();
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) audio.pause();
+      else audio.play();
+    }
+
+    function playRandomTrack() {
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * playlist.length);
+      } while (nextIndex === currentTrackIndex && playlist.length > 1);
+      loadTrack(nextIndex);
+      audio.play();
+      isPlaying = true;
+      playPauseBtn.innerHTML = '&#10073;&#10073;'; // Pause icon
+    }
+
+    nextBtn.addEventListener('click', playRandomTrack);
+    prevBtn.addEventListener('click', playRandomTrack);
+    playPauseBtn.addEventListener('click', togglePlayPause);
+
+    audio.addEventListener('timeupdate', () => {
+      progressBar.max = audio.duration || 0;
+      progressBar.value = audio.currentTime;
+      startTime.textContent = formatTime(audio.currentTime);
+      endTime.textContent = formatTime(audio.duration);
+      progressBar.setAttribute('aria-valuemax', Math.floor(audio.duration) || 0);
+      progressBar.setAttribute('aria-valuenow', Math.floor(audio.currentTime));
+    });
+
+    progressBar.addEventListener('input', () => {
+      audio.currentTime = progressBar.value;
+    });
+
+    audio.addEventListener('play', () => {
+      isPlaying = true;
+      playPauseBtn.innerHTML = '&#10073;&#10073;'; // Pause icon
+    });
+
+    audio.addEventListener('pause', () => {
+      isPlaying = false;
+      playPauseBtn.innerHTML = '&#9658;'; // Play icon
+    });
+
+    audio.addEventListener('ended', playRandomTrack);
+
+    // Load first track on page load
+    loadTrack(0);
+  </script>
+</body>
+</html>
